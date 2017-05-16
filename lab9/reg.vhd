@@ -12,25 +12,18 @@ ENTITY reg IS
 			q,dataoutest : OUT std_logic_vector(7 downto 0));
 	END reg;
 ARCHITECTURE Behavior OF reg IS
-	
-component Mux2_1 IS
-	PORT ( x,y,s : IN STD_LOGIC;
-			m : OUT STD_LOGIC);
+
+component Mux2_1_8 IS
+	PORT ( x,y : IN STD_LOGIC_vector(7 downto 0); -- Mux2_1_8
+				s:IN STD_LOGIC;
+			m : OUT  STD_LOGIC_vector(7 downto 0));
 	END component;
-	
+
 
 
 signal dataentra,datasaida:std_logic_vector(7 downto 0);
 	BEGIN
- Mux1: Mux2_1 port map (data(0),dataestatico(0),Sel,dataentra(0));
- Mux2: Mux2_1 port map (data(1),dataestatico(1),Sel,dataentra(1));
- Mux3: Mux2_1 port map (data(2),dataestatico(2),Sel,dataentra(2));
- Mux4: Mux2_1 port map (data(3),dataestatico(3),Sel,dataentra(3));
- Mux5: Mux2_1 port map (data(4),dataestatico(4),Sel,dataentra(4));
- Mux6: Mux2_1 port map (data(5),dataestatico(5),Sel,dataentra(5));
- Mux7: Mux2_1 port map (data(6),dataestatico(6),Sel,dataentra(6));
- Mux8: Mux2_1 port map (data(7),dataestatico(7),Sel,dataentra(7));
-
+ Mux1: Mux2_1_8 port map (data,dataestatico,Sel,dataentra;
  PROCESS ( Clear,dataentra,Clk )
 		variable zera:std_logic_vector(7 downto 0):=dataentra;
 		BEGIN
@@ -43,6 +36,6 @@ signal dataentra,datasaida:std_logic_vector(7 downto 0);
 			dataoutest<=datasaida;
 	END PROCESS ;
 
- 
-	
+
+
 END Behavior;
