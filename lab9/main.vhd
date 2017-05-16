@@ -55,7 +55,7 @@ END component;
 
 component reg IS
 	PORT ( Sel,Clk,Clear : IN STD_LOGIC; 									-- chave seletora
-				data,dataestatico:in std_logic_vector(7 downto 0); --
+				data:in std_logic_vector(7 downto 0); --
 			q : OUT std_logic_vector(7 downto 0));
 	END component;
 
@@ -83,13 +83,11 @@ SIGNAL EEND: STD_LOGIC_VECTOR(3 DOWNTO 0);
 	LEDG(0)<=WREN;
 	--
 	M1: ramlpm port map(EEND,CLKM,DADO,WREN,Q);
-	RA: reg port map(SELRA,CLKR,CLEARREGS,Q,xa,Areg);
-	xa<=ras;
-	RB:reg port map(SELRB,CLKR,CLEARREGS,Q,xb,Breg);
-	xb<=rbs;
+	RA: reg port map(SELRA,CLKR,CLEARREGS,Q,Areg);
+	RB:reg port map(SELRB,CLKR,CLEARREGS,Q,Breg);
 	Mux8: Mux2_1_8 port map(Areg,Zreg,SELM1,G);
 	ADS: add_sub PORT MAP(ADDSUBR,Breg,G,over,M);
-	RZ: reg port map('0',CLKZ,CLEARREGS,M,"00000000",Zreg);
+	RZ: reg port map('0',CLKZ,CLEARREGS,M,Zreg);
 	Mux9: Mux2_1_8 port map(SW(7 DOWNTO 0),Zreg,SELM2,DADO);
 	c1: char_7seg port map(xa(7 downto 4),HEX7);
 	c2: char_7seg port map(xa(3 downto 0),HEX6);
