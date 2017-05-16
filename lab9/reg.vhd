@@ -9,7 +9,7 @@ USE ieee.std_logic_1164.all;
 ENTITY reg IS
 	PORT ( Sel,Clk,Clear : IN STD_LOGIC;
 				data,dataestatico:in std_logic_vector(7 downto 0);
-			q,dataoutest : OUT std_logic_vector(7 downto 0));
+			q : OUT std_logic_vector(7 downto 0));
 	END reg;
 ARCHITECTURE Behavior OF reg IS
 
@@ -29,11 +29,10 @@ signal dataentra,datasaida:std_logic_vector(7 downto 0);
 		BEGIN
 			IF (Clear = '1') THEN
 				zera := "00000000" ;
-			elsif(rising_edge(Clk)) then
+			elsif(rising_edge(Clk	)) then
 			datasaida<=zera;
 			END IF ;
 			q<=datasaida;
-			dataoutest<=datasaida;
 	END PROCESS ;
 
 
