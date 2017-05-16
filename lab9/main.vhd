@@ -66,7 +66,7 @@ component Mux2_1_8 IS
 	END component;
 
 SIGNAL CLKZ,CLKM,CLKR,CLEARREGS,WREN,SELM2,SELM1,SELRB,SELRA,ADDSUBR,over: std_LOGIC;
-SIGNAL DADO,Q,xa,ras,xb,rbs,Breg,Areg,Zreg,z,G,M: STD_LOGIC_VECTOR(7 DOWNTO 0):="00000000";
+SIGNAL DADO,Q,Breg,Areg,Zreg,z,G,M: STD_LOGIC_VECTOR(7 DOWNTO 0):="00000000";
 SIGNAL EEND: STD_LOGIC_VECTOR(3 DOWNTO 0);
 	BEGIN
 	EEND <=SW(11 DOWNTO 8);
@@ -89,12 +89,12 @@ SIGNAL EEND: STD_LOGIC_VECTOR(3 DOWNTO 0);
 	ADS: add_sub PORT MAP(ADDSUBR,Breg,G,over,M);
 	RZ: reg port map('0',CLKZ,CLEARREGS,M,Zreg);
 	Mux9: Mux2_1_8 port map(SW(7 DOWNTO 0),Zreg,SELM2,DADO);
-	c1: char_7seg port map(xa(7 downto 4),HEX7);
-	c2: char_7seg port map(xa(3 downto 0),HEX6);
-	c3: char_7seg port map(xb(7 downto 4),HEX5);
-	c4: char_7seg port map(xb(3 downto 0),HEX4);
-	c5: char_7seg port map(z(7 downto 4),HEX3);
-	c6: char_7seg port map(z(3 downto 0),HEX2);
+	c1: char_7seg port map(Areg(7 downto 4),HEX7);
+	c2: char_7seg port map(Areg(3 downto 0),HEX6);
+	c3: char_7seg port map(Breg(7 downto 4),HEX5);
+	c4: char_7seg port map(Breg(3 downto 0),HEX4);
+	c5: char_7seg port map(Zreg(7 downto 4),HEX3);
+	c6: char_7seg port map(Zreg(3 downto 0),HEX2);
 	c7: char_7seg port map(Q(7 downto 4),HEX1);
 	c8: char_7seg port map(Q(3 downto 0),HEX0);
 
