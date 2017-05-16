@@ -14,25 +14,22 @@ ENTITY reg IS
 ARCHITECTURE Behavior OF reg IS
 
 
-signal dataentra,datasaida:std_logic_vector(7 downto 0);
+signal dataentra:std_logic_vector(7 downto 0);
 	BEGIN
+	ARCHITECTURE Behavior OF reg IS signal
 
- PROCESS ( Clear,dataentra,Clk,Sel,data )
-		variable estado:std_logic_vector(7 downto 0):=dataentra;
-		BEGIN
-			IF (Clear = '1') THEN
-				datasaida <= "00000000" ;
+BEGIN
+PROCESS ( Clear,dataentra,Clk,Sel,data )
+ 		variable estado:std_logic_vector(7 downto 0);
+BEGIN
+ 			IF (Clear = '1') THEN
+ 				estado <= "00000000" ;
 			elsif(rising_edge(Clk	)) then
-				if(Sel = '1') then    				--se a chave seletora estiver ligada altero o valor
-					datasaida<=data;
-				else then
-					datasaida<=zera
-				end if;
-				datasaida<=zera;
-			END IF ;
-			q<=datasaida;
-	END PROCESS ;
-
-
+ 				if(Sel = '1') then 				--se a chave seletora estiver ligada altero o valor
+ 					estado<=data;
+ 				end if;
+ 			END IF ;
+ 			q<=estado;
+ 	END PROCESS ;
 
 END Behavior;
