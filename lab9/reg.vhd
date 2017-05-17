@@ -13,13 +13,11 @@ ENTITY reg IS
 	END reg;
 ARCHITECTURE Behavior OF reg IS
 
-
-signal dataentra:std_logic_vector(7 downto 0);
 	BEGIN
 	ARCHITECTURE Behavior OF reg IS signal
 
 BEGIN
-PROCESS ( Clear,dataentra,Clk,Sel,data )
+PROCESS ( Clear,Clk,Sel,data )
  		variable estado:std_logic_vector(7 downto 0);
 BEGIN
  			IF (Clear = '1') THEN

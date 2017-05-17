@@ -87,7 +87,7 @@ SIGNAL EEND: STD_LOGIC_VECTOR(3 DOWNTO 0);
 	RB:reg port map(SELRB,CLKR,CLEARREGS,Q,Breg);
 	Mux8: Mux2_1_8 port map(Areg,Zreg,SELM1,G);
 	ADS: add_sub PORT MAP(ADDSUBR,Breg,G,over,M);
-	RZ: reg port map('0',CLKZ,CLEARREGS,M,Zreg);
+	RZ: reg port map('1',CLKZ,CLEARREGS,M,Zreg);
 	Mux9: Mux2_1_8 port map(SW(7 DOWNTO 0),Zreg,SELM2,DADO);
 	c1: char_7seg port map(Areg(7 downto 4),HEX7);
 	c2: char_7seg port map(Areg(3 downto 0),HEX6);
