@@ -8,20 +8,17 @@ USE ieee.std_logic_1164.all;
 
 ENTITY reg IS
 	PORT ( Sel,Clk,Clear : IN STD_LOGIC;
-				data:in std_logic_vector(7 downto 0);
-			q : OUT std_logic_vector(7 downto 0));
+				data:in std_logic_vector(15 downto 0);
+			q : OUT std_logic_vector(15 downto 0));
 	END reg;
 ARCHITECTURE Behavior OF reg IS
 
-	BEGIN
-	ARCHITECTURE Behavior OF reg IS signal
-
 BEGIN
 PROCESS ( Clear,Clk,Sel,data )
- 		variable estado:std_logic_vector(7 downto 0);
+ 		variable estado:std_logic_vector(15 downto 0);
 BEGIN
  			IF (Clear = '1') THEN
- 				estado <= "00000000" ;
+ 				estado <= "00000000000000000" ;
 			elsif(rising_edge(Clk	)) then
  				if(Sel = '1') then 				--se a chave seletora estiver ligada altero o valor
  					estado<=data;
