@@ -13,7 +13,7 @@ ARCHITECTURE Behavior OF dec3to8 IS
 BEGIN
 	PROCESS (W, En)
 		BEGIN
-			IF En = ’1’ THEN
+			IF En = '1' THEN
 				CASE W IS
 					WHEN "000"=> Y <= "10000000";
 					WHEN "001"=> Y <= "01000000";
