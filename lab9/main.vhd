@@ -1,6 +1,3 @@
---Nome:Carlos Vinícius Araki Oliveira RA:160141
---Nome:Cleber França Carvalho RA:145739
-
 LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 USE ieee.std_logic_signed.all ;
@@ -78,7 +75,7 @@ SIGNAL EEND: STD_LOGIC_VECTOR(3 DOWNTO 0);
 	SELM1 <=SW(14);
 	SELRB <=SW(15);
 	SELRA <= SW(16);
-	ADDSUBR <=SW(17);   ---obs: ligado é soma desligado é sub
+	ADDSUBR <=SW(17);
 	CLKZ <=NOT KEY(0);
 	CLKM <=NOT KEY(1);
 	CLKR <= NOT KEY(2);
