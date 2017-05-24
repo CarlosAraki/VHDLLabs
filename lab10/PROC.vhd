@@ -11,7 +11,7 @@ END PROC;
 
 
 ARCHITECTURE Behavior OF PROC IS
-component add_sub IS
+component add_sub IS 										--ALU
 	PORT
 	(
 		add_sub		: IN STD_LOGIC ;
@@ -21,32 +21,42 @@ component add_sub IS
 		result		: OUT STD_LOGIC_VECTOR (15 DOWNTO 0)
 	);
 	END component;
-component regip IS
+	
+	
+COMPONENT reg IS											--COMPONENT
 	PORT ( Sel,Clk,Clear : IN STD_LOGIC;
-				data:in std_logic_vector(8 downto 0);
+				data:in std_logic_vector(15 downto 0);
+			q : OUT std_logic_vector(15 downto 0));
+	END COMPONENT;
+	
+	
+component regip IS									--REGIP
+	PORT ( Sel,Clk,Clear : IN STD_LOGIC;
+			data:in std_logic_vector(8 downto 0);
 			q : OUT std_logic_vector(8 downto 0));
 	END component;
-component mux10 IS
+	
+component mux10 IS									--MUX10
 	PORT (
 			selR:in std_logic_vector(0 to 7);
-			Gout,DINOUT :STD_LOGIC;
-				din,r0,r1,r2,r3,r4,r5,r6,r7,g:in std_logic_vector(15 downto 0);
+			Gout,DINOUTx: IN STD_LOGIC;
+			dentrada,r0,r1,r2,r3,r4,r5,r6,r7,g:in std_logic_vector(15 downto 0);
 			q : OUT std_logic_vector(15 downto 0));
 	END component;
 
 
-	component dec3to8 IS
+	component dec3to8 IS															--DEC3TO8
 
 	PORT ( W : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
 			En : IN STD_LOGIC;
 			 Y : OUT STD_LOGIC_VECTOR(0 TO 7));
 	END component;
 
-	component regn IS
+	component regn IS																--REGN
 
 	GENERIC (n : INTEGER := 16);
 
-	PORT ( 			R : IN STD_LOGIC_VECTOR(n-1 DOWNTO 0);
+	PORT (R : IN STD_LOGIC_VECTOR(n-1 DOWNTO 0);
 			Rin, Clock: IN STD_LOGIC;
 				Q : BUFFER STD_LOGIC_VECTOR(n-1 DOWNTO 0));
 	END component;
@@ -55,8 +65,9 @@ component mux10 IS
 
 signal R0,R1,R2,R3,R4,R5,R6,R7,G,A,ADDSUBV: STD_LOGIC_VECTOR(15 DOWNTO 0);
 SIGNAL IR :STD_LOGIC_VECTOR (0 to 8);
-SIGNAL 	High,RYout,RXin,Done,RXout,IRin,DINout,Ain,Gin,Gout,add_subsignal:STD_LOGIC;
-SIgnal Xreg,Yreg,Rout,Rin : STD_LOGIC_VECTOR(7 downto 0);
+SIGNAL High,RYout,over,RXin,RXout,IRin,DINout,Ain,Gin,Gout,add_subsignal:STD_LOGIC;
+SIgnal Xreg,Yreg,Rout: STD_LOGIC_VECTOR(7 downto 0);
+signal Rin : STD_LOGIC_VECTOR(0 to 7);
 signal I : std_logic_vector(0 to 2);
 	TYPE State_type IS (T0, T1, T2, T3);
 	SIGNAL Tstep_Q, Tstep_D: State_type;
@@ -102,7 +113,7 @@ signal I : std_logic_vector(0 to 2);
 						Ain <='0';
 						Gin <='0';
 						Gout <='0';
-						add_subsignal <= '0';
+						add_subsignal <= '1';
 				WHEN T1 => -- define signals in time step T1
 				CASE I IS
 				when "000" =>
@@ -115,7 +126,7 @@ signal I : std_logic_vector(0 to 2);
 						Ain <='0';
 						Gin <='0';
 						Gout <='0';
-						add_subsignal <= '0';
+						add_subsignal <= '1';
 				when "001" =>
 						RYout<='0';
 						RXin <='1';
@@ -126,7 +137,7 @@ signal I : std_logic_vector(0 to 2);
 						Ain <='0';
 						Gin <='0';
 						Gout <='0';
-						add_subsignal <= '0';
+						add_subsignal <= '1';
 				when "010" =>
 						RYout<='0';
 						RXin <='0';
@@ -137,7 +148,7 @@ signal I : std_logic_vector(0 to 2);
 						Ain <='1';
 						Gin <='0';
 						Gout <='0';
-						add_subsignal <= '0';
+						add_subsignal <= '1';
 				when "011" =>
 						RYout<='0';
 						RXin <='0';
@@ -148,7 +159,7 @@ signal I : std_logic_vector(0 to 2);
 						Ain <='1';
 						Gin <='0';
 						Gout <='0';
-						add_subsignal <= '0';
+						add_subsignal <= '1';
 				when others =>
 						RYout<='0';
 						RXin <='0';
@@ -159,7 +170,7 @@ signal I : std_logic_vector(0 to 2);
 						Ain <='0';
 						Gin <='0';
 						Gout <='0';
-						add_subsignal <= '0';
+						add_subsignal <= '1';
 				END CASE;
 				WHEN T2 => -- define signals in time step T2
 				CASE I IS
@@ -173,7 +184,7 @@ signal I : std_logic_vector(0 to 2);
 						Ain <='0';
 						Gin <='1';
 						Gout <='0';
-						add_subsignal <= '0';
+						add_subsignal <= '1';
 				when "011" =>
 						RYout<='1';
 						RXin <='0';
@@ -184,7 +195,7 @@ signal I : std_logic_vector(0 to 2);
 						Ain <='0';
 						Gin <='1';
 						Gout <='0';
-						add_subsignal <= '1';
+						add_subsignal <= '0';
 				when others =>
 						RYout<='0';
 						RXin <='0';
@@ -195,7 +206,7 @@ signal I : std_logic_vector(0 to 2);
 						Ain <='0';
 						Gin <='0';
 						Gout <='0';
-						add_subsignal <= '0';
+						add_subsignal <= '1';
 				END CASE;
 				WHEN T3 => -- define signals in time step T3
 				CASE I IS
@@ -209,7 +220,7 @@ signal I : std_logic_vector(0 to 2);
 						Ain <='0';
 						Gin <='0';
 						Gout <='1';
-						add_subsignal <= '0';
+						add_subsignal <= '1';
 				when "011" =>
 						RYout<='0';
 						RXin <='1';
@@ -220,7 +231,7 @@ signal I : std_logic_vector(0 to 2);
 						Ain <='0';
 						Gin <='0';
 						Gout <='1';
-						add_subsignal <= '0';
+						add_subsignal <= '1';
 				when others =>
 						RYout<='0';
 						RXin <='0';
@@ -231,7 +242,7 @@ signal I : std_logic_vector(0 to 2);
 						Ain <='0';
 						Gin <='0';
 						Gout <='0';
-						add_subsignal <= '0';
+						add_subsignal <= '1';
 				END CASE;
 			END CASE;
 		END PROCESS;
@@ -245,6 +256,11 @@ signal I : std_logic_vector(0 to 2);
 		end if;
 
 		END PROCESS;
+		Rin <= Xreg WHEN RXin ='1' -- 0
+							ELSE "00000000";
+		Rout <=  Xreg WHEN RXout ='1' -- 0
+							ELSE Yreg WHEN RYout = '1' --1
+							ELSE "00000000";
 		reg_0: reg PORT MAP (Rin(0),Clock,'0',BusWires,R0);
 		reg_1: reg PORT MAP (Rin(1),Clock,'0',BusWires,R1);
 		reg_2: reg PORT MAP (Rin(2),Clock,'0',BusWires,R2);
@@ -256,11 +272,7 @@ signal I : std_logic_vector(0 to 2);
 		reg_g: reg PORT MAP (Gin,Clock,'0',ADDSUBV,G);
 		reg_A: reg PORT MAP (Ain,Clock,'0',BusWires,A);
 		reg_ip: regip PORT MAP (IRin,Clock,'0',DIN(15 downto 7),IR);
-		Rin <= Xreg WHEN RXout ='1' -- 0
-							ELSE "00000000";
-		Rout <=  Xreg WHEN RXout ='1' -- 0
-							ELSE Yreg WHEN RYout '1' --1
-							ELSE "00000000";
+
 
 		mux: mux10 PORT MAP(Rout,Gout,DINout,DIN,R0,R1,R2,R3,R4,R5,R6,R7,G,BusWires);
 		add: add_sub PORT MAP(add_subsignal,A,BusWires,over,ADDSUBV);

@@ -14,8 +14,8 @@ ARCHITECTURE Behavior OF regn IS
 BEGIN
 	PROCESS (Clock)
 		BEGIN
-		IF Clock’EVENT AND Clock = ’1’ THEN
-			IF Rin = ’1’ THEN
+		IF (clock'event and Clock ='1') THEN
+			IF Rin = '1' THEN
 				Q <= R;
 			END IF;
 		END IF;

@@ -18,10 +18,10 @@ PROCESS ( Clear,Clk,Sel,data )
  		variable estado:std_logic_vector(8 downto 0);
 BEGIN
  			IF (Clear = '1') THEN
- 				estado <= "000000000" ;
+ 				estado := "000000000" ;
 			elsif(rising_edge(Clk	)) then
  				if(Sel = '1') then 				--se a chave seletora estiver ligada altero o valor
- 					estado<=data;
+ 					estado:=data;
  				end if;
  			END IF ;
  			q<=estado;
