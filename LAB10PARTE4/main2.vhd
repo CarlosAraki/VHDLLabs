@@ -28,8 +28,9 @@ ARCHITECTURE Behavior OF parte4 IS
 
 component seg7_scroll IS
 	PORT (
-			sel1,sel2,sel3,sel4,sel5,sel6,sel7,sel8:in std_LOGIC;
-			Clk,Clear : IN STD_LOGIC;
+			sel1:in std_LOGIC;
+			Clk,Clear,En : IN STD_LOGIC;
+			qualhex:in Std_logic_vector(2 downto 0);
 			entrada1:in std_LOGIC_VECTOR(6 downto 0);
 			Display0:OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
 			Display1:OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
@@ -79,14 +80,7 @@ BEGIN
 	por<= not(auxend(15) or auxend(14) or auxend(13) or auxend(12));
 	sor<= not(auxend(15) or auxend(14) or auxend(13) or not(auxend(12)));
 	h0or<=not(auxend(15) or auxend(14) or not(auxend(13)) or auxend(12)); --0010
-	h1or<=not(auxend(15) or auxend(14) or not(auxend(13)) or not(auxend(12))); --0011
-	h2or<=not(auxend(15) or not(auxend(14)) or auxend(13) or auxend(12));    --0100
-	h3or<=not(auxend(15) or not(auxend(14)) or auxend(13) or not(auxend(12))); --0101
-	h4or<=not(auxend(15) or not(auxend(14)) or not(auxend(13)) or auxend(12)); --0110
-	h5or<=not(auxend(15) or not(auxend(14)) or not(auxend(13)) or not(auxend(12))); --0111
-	h6or<=not(not(auxend(15)) or auxend(14) or auxend(13) or auxend(12)); --1000
-	h7or<=not(not(auxend(15)) or auxend(14) or auxend(13) or not(auxend(12))); --1001
-
+	
 	Wren<= por and W_DD;
 	E<= W_DD and sor;
 	notstall <= not(addstall);
@@ -94,5 +88,5 @@ BEGIN
 	--meus IOs
 	led: reg port map(E,Clock,Resetn,DoutT,LEDR);
 	memoria: memRAM port map(AddroutT(6 downto 0),addstall,Clock,DoutT,Wren,DINN);
-	scroll: seg7_scroll port map(h0or,h1or,h2or,h3or,h4or,h5or,h6or,h7or,Clock,Resetn,AddroutT(6 downto 0),HEX0,HEX1,HEX2,HEX3,HEX4,HEX5,HEX6,HEX7);
+	scroll: seg7_scroll port map(h0or,Clock,Resetn,E,addstall(2 downto 0),Dout(6 downto0),HEX0,HEX1,HEX2,HEX3,HEX4,HEX5,HEX6,HEX7);
 END Behavior;
