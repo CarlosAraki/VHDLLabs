@@ -9,8 +9,9 @@ USE ieee.std_logic_signed.all;
 
 ENTITY seg7_scroll IS
 	PORT (
-			sel1,sel2,sel3,sel4,sel5,sel6,sel7,sel8:in std_LOGIC;
-			Clk,Clear : IN STD_LOGIC;
+			sel1:in std_LOGIC;
+			Clk,Clear,En : IN STD_LOGIC;
+			qualhex:in Std_logic_vector(2 downto 0);
 			entrada1:in std_LOGIC_VECTOR(6 downto 0);
 			Display0:OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
 			Display1:OUT STD_LOGIC_VECTOR(6 DOWNTO 0);
@@ -31,13 +32,23 @@ COMPONENT reg7bits IS
 				data:in std_logic_vector(6 downto 0);
 			q : OUT std_logic_vector(6 downto 0));
   	END COMPONENT;
+COMPONENT dec3to8 IS
+
+PORT ( W : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
+		En : IN STD_LOGIC;
+		 Y : OUT STD_LOGIC_VECTOR(0 TO 7));
+END COMPONENT;
+
+signal saida:std_logic_vector(0 to 7);
+
 BEGIN
-			R0: reg7bits port map(sel1,Clk,Clear,entrada1,Display0);
-			R1: reg7bits port map(sel2,Clk,Clear,entrada1,Display1);
-			R2: reg7bits port map(sel3,Clk,Clear,entrada1,Display2);
-			R3: reg7bits port map(sel4,Clk,Clear,entrada1,Display3);
-			R4: reg7bits port map(sel5,Clk,Clear,entrada1,Display4);
-			R5: reg7bits port map(sel6,Clk,Clear,entrada1,Display5);
-			R6: reg7bits port map(sel7,Clk,Clear,entrada1,Display6);
-			R7: reg7bits port map(sel8,Clk,Clear,entrada1,Display7);
+			dec: dec3to8(qualhex,En,saida);
+			R0: reg7bits port map(saida(0),Clk,Clear,entrada1,Display0);
+			R1: reg7bits port map(saida(1),Clk,Clear,entrada1,Display1);
+			R2: reg7bits port map(saida(2),Clk,Clear,entrada1,Display2);
+			R3: reg7bits port map(saida(3),Clk,Clear,entrada1,Display3);
+			R4: reg7bits port map(saida(4),Clk,Clear,entrada1,Display4);
+			R5: reg7bits port map(saida(5),Clk,Clear,entrada1,Display5);
+			R6: reg7bits port map(saida(6),Clk,Clear,entrada1,Display6);
+			R7: reg7bits port map(saida(7),Clk,Clear,entrada1,Display7);
 END Behavior;
