@@ -7,7 +7,7 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 USE ieee.std_logic_signed.all;
 
-ENTITY parte4 IS
+ENTITY parte5 IS
 	PORT (
 				Resetn,Run:in STD_LOGIC;
 				SW: IN STD_LOGIC_VECTOR(15 DOWNTO 0);
@@ -22,11 +22,11 @@ ENTITY parte4 IS
 				HEX6 :out std_LOGIC_VECTOR(6 downto 0);
 				HEX7 :out std_LOGIC_VECTOR(6 downto 0);
 				Done: out STD_LOGIC);
-END parte4;
+END parte5;
 
 
 
-ARCHITECTURE Behavior OF parte4 IS
+ARCHITECTURE Behavior OF parte5 IS
 
 component seg7_scroll IS
 	PORT (
