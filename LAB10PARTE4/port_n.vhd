@@ -16,7 +16,7 @@ ENTITY port_n IS
 END port_n;
 
 
-ARCHITECTURE Behavior OF parte4 IS
+ARCHITECTURE Behavior OF port_n IS
 
 component reg IS
 	PORT (Sel,Clk,Clear : IN STD_LOGIC;
