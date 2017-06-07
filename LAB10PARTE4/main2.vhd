@@ -10,6 +10,8 @@ USE ieee.std_logic_signed.all;
 ENTITY parte4 IS
 	PORT (
 				Clock,Resetn,Run:in STD_LOGIC;
+				SW: IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+				CLOCK_50: IN STD_LOGIC;
 				LEDR : out std_logic_vector(15 downto 0);
 				HEX0 :out std_LOGIC_VECTOR(6 downto 0);
 				HEX1 :out std_LOGIC_VECTOR(6 downto 0);
@@ -70,22 +72,33 @@ COMPONENT reg IS											--COMPONENT
 			q : OUT std_logic_vector(15 downto 0));
 	END COMPONENT;
 
+COMPONENT port_n IS
+		PORT ( chaves : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+				memmoria: in std_logic_vector(15 downto 0);
+				sel,Clk,Clear: in STD_LOGIC;
+				saida: out std_logic_vector(15 downto 0)
+			   );
+	END COMPONENT;
 
-signal auxend,DINN,AddroutT,DoutT: std_logic_vector(15 downto 0);
-signal notstall,addstall,W_DD,Wren,por,sor,E,h0or,h1or,h2or,h3or,h4or,h5or,h6or,h7or: STD_LOGIC;
+
+
+signal auxend,DINN,AddroutT,DoutT,saidaport: std_logic_vector(15 downto 0);
+signal notstall,addstall,W_DD,Wren,por,sor,E,h0or,seleci,CLOCK: STD_LOGIC;
 
 
 BEGIN
-	proc1: PROC port map(DINN,AddroutT,DoutT,Resetn,Clock,Run,addstall,W_DD,Done);
+	Clock<=CLOCK_50;
+	proc1: PROC port map(saidaport,AddroutT,DoutT,Resetn,Clock,Run,addstall,W_DD,Done);
 	por<= not(auxend(15) or auxend(14) or auxend(13) or auxend(12));
 	sor<= not(auxend(15) or auxend(14) or auxend(13) or not(auxend(12)));
 	h0or<=not(auxend(15) or auxend(14) or not(auxend(13)) or auxend(12)); --0010
-	
+	seleci<= not(auxend(15) or auxend(14) or NOT(auxend(13)) or NOT(auxend(12)));--0011
 	Wren<= por and W_DD;
 	E<= W_DD and sor;
 	notstall <= not(addstall);
 	regaux: reg port map(notstall,Clock,Resetn,AddroutT,auxend);
 	--meus IOs
+	portn: port_n port map(SW,DINN,seleci,Clock,Resetn,saidaport);
 	led: reg port map(E,Clock,Resetn,DoutT,LEDR);
 	memoria: memRAM port map(AddroutT(6 downto 0),addstall,Clock,DoutT,Wren,DINN);
 	scroll: seg7_scroll port map(h0or,Clock,Resetn,E,addstall(2 downto 0),Dout(6 downto0),HEX0,HEX1,HEX2,HEX3,HEX4,HEX5,HEX6,HEX7);
