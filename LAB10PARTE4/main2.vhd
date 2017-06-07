@@ -9,7 +9,7 @@ USE ieee.std_logic_signed.all;
 
 ENTITY parte4 IS
 	PORT (
-				Clock,Resetn,Run:in STD_LOGIC;
+				Resetn,Run:in STD_LOGIC;
 				SW: IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 				CLOCK_50: IN STD_LOGIC;
 				LEDR : out std_logic_vector(15 downto 0);
