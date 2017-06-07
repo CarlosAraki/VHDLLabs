@@ -101,5 +101,5 @@ BEGIN
 	portn: port_n port map(SW,DINN,seleci,Clock,Resetn,saidaport);
 	led: reg port map(E,Clock,Resetn,DoutT,LEDR);
 	memoria: memRAM port map(AddroutT(6 downto 0),addstall,Clock,DoutT,Wren,DINN);
-	scroll: seg7_scroll port map(h0or,Clock,Resetn,E,addstall(2 downto 0),Dout(6 downto0),HEX0,HEX1,HEX2,HEX3,HEX4,HEX5,HEX6,HEX7);
+	scroll: seg7_scroll port map(h0or,Clock,Resetn,E,AddroutT(2 downto 0),DoutT(6 downto 0),HEX0,HEX1,HEX2,HEX3,HEX4,HEX5,HEX6,HEX7);
 END Behavior;
