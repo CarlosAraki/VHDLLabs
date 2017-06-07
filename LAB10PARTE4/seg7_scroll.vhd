@@ -42,7 +42,7 @@ END COMPONENT;
 signal saida:std_logic_vector(0 to 7);
 
 BEGIN
-			dec: dec3to8(qualhex,En,saida);
+			dec: dec3to8 port map(qualhex,En,saida);	
 			R0: reg7bits port map(saida(0),Clk,Clear,entrada1,Display0);
 			R1: reg7bits port map(saida(1),Clk,Clear,entrada1,Display1);
 			R2: reg7bits port map(saida(2),Clk,Clear,entrada1,Display2);
