@@ -1,5 +1,5 @@
 -- ES575 - Laboratório de Circuitos Lógicos
--- Laboratório 10(Parte III) - Projeto de Máquinas de Estados Temporizadas
+-- Laboratório 10 (Parte V) - Projeto de Máquinas de Estados Temporizadas
 -- Aluno: Carlos Vinícius Araki Oliveira - RA:160141
 -- Aluno: Cleber França Carvalho         - RA:145739
 
@@ -83,7 +83,7 @@ COMPONENT port_n IS
 
 
 signal auxend,DINN,AddroutT,DoutT,saidaport: std_logic_vector(15 downto 0);
-signal notstall,addstall,W_DD,Wren,por,sor,E,h0or,seleci,Clock: STD_LOGIC;
+signal notstall,addstall,W_DD,Wren,por,sor,E,h0or,seleci,Clock,ld_read,w_hex: STD_LOGIC;
 
 
 BEGIN
@@ -95,11 +95,13 @@ BEGIN
 	seleci<= not(auxend(15) or auxend(14) or NOT(auxend(13)) or NOT(auxend(12)));--0011
 	Wren<= por and W_DD;
 	E<= W_DD and sor;
+	ld_read <= not(W_DD) and seleci;
+	w_hex <= W_DD and h0or;
 	notstall <= not(addstall);
 	regaux: reg port map(notstall,Clock,Resetn,AddroutT,auxend);
 	--meus IOs
-	portn: port_n port map(SW,DINN,seleci,Clock,Resetn,saidaport);
+	portn: port_n port map(SW,DINN,ld_read,Clock,Resetn,saidaport);
 	led: reg port map(E,Clock,Resetn,DoutT,LEDR);
 	memoria: memRAM port map(AddroutT(6 downto 0),addstall,Clock,DoutT,Wren,DINN);
-	scroll: seg7_scroll port map(h0or,Clock,Resetn,E,AddroutT(2 downto 0),DoutT(6 downto 0),HEX0,HEX1,HEX2,HEX3,HEX4,HEX5,HEX6,HEX7);
+	scroll: seg7_scroll port map(h0or,Clock,Resetn,w_hex,AddroutT(2 downto 0),DoutT(6 downto 0),HEX0,HEX1,HEX2,HEX3,HEX4,HEX5,HEX6,HEX7);
 END Behavior;
