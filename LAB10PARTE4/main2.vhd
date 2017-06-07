@@ -83,7 +83,7 @@ COMPONENT port_n IS
 
 
 signal auxend,DINN,AddroutT,DoutT,saidaport: std_logic_vector(15 downto 0);
-signal notstall,addstall,W_DD,Wren,por,sor,E,h0or,seleci,CLOCK: STD_LOGIC;
+signal notstall,addstall,W_DD,Wren,por,sor,E,h0or,seleci,Clock: STD_LOGIC;
 
 
 BEGIN
