@@ -9,8 +9,8 @@ USE ieee.std_logic_signed.all;
 
 ENTITY parte5 IS
 	PORT (
-				Resetn,Run:in STD_LOGIC;
-				SW: IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+				KEY:in std_logic_vector(1 downto 0);
+				SW: IN STD_LOGIC_VECTOR(17 DOWNTO 0);
 				CLOCK_50: IN STD_LOGIC;
 				LEDR : out std_logic_vector(15 downto 0);
 				HEX0 :out std_LOGIC_VECTOR(6 downto 0);
@@ -84,9 +84,11 @@ COMPONENT port_n IS
 
 signal auxend,DINN,AddroutT,DoutT,saidaport: std_logic_vector(15 downto 0);
 signal notstall,addstall,W_DD,Wren,por,sor,E,h0or,seleci,Clock,ld_read,w_hex: STD_LOGIC;
-
+signal Resetn,Run:in STD_LOGIC;
 
 BEGIN
+	Resetn<=not(KEY(0));
+	Run<=SW(17);
 	Clock<=CLOCK_50;
 	proc1: PROC port map(saidaport,AddroutT,DoutT,Resetn,Clock,Run,addstall,W_DD,Done);
 	por<= not(auxend(15) or auxend(14) or auxend(13) or auxend(12));
